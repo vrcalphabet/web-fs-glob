@@ -1,0 +1,66 @@
+diff --git a/node_modules/@types/picomatch/lib/parse.d.ts b/node_modules/@types/picomatch/lib/parse.d.ts
+index 8d52eb4..be984f2 100644
+--- a/node_modules/@types/picomatch/lib/parse.d.ts
++++ b/node_modules/@types/picomatch/lib/parse.d.ts
+@@ -1,4 +1,6 @@
+-declare function parse(input: string, options: { maxLength?: number | undefined }): parse.ParseState;
++import { PicomatchOptions } from "picomatch";
++
++declare function parse(input: string, options: PicomatchOptions): parse.ParseState;
+ 
+ declare namespace parse {
+     interface Token {
+diff --git a/node_modules/@types/picomatch/lib/picomatch.d.ts b/node_modules/@types/picomatch/lib/picomatch.d.ts
+index 8009b51..ba1c782 100644
+--- a/node_modules/@types/picomatch/lib/picomatch.d.ts
++++ b/node_modules/@types/picomatch/lib/picomatch.d.ts
+@@ -216,14 +216,10 @@ declare namespace picomatch {
+ 
+     function matchBase(input: string, glob: RegExp | string, options?: {}, posix?: any): boolean;
+ 
+-    function isMatch(str: string | string[], patterns: Glob, options?: {}): boolean;
++    function isMatch(str: string | string[], patterns: Glob, options?: PicomatchOptions): boolean;
+ 
+-    function parse(pattern: string[], options?: { maxLength?: number | undefined }): parseImport.ParseState[];
+-    function parse(pattern: string, options?: { maxLength?: number | undefined }): parseImport.ParseState;
+-    function parse(
+-        pattern: Glob,
+-        options?: { maxLength?: number | undefined },
+-    ): parseImport.ParseState | parseImport.ParseState[];
++    function parse(pattern: string[], options?: PicomatchOptions): parseImport.ParseState[];
++    function parse(pattern: string, options?: PicomatchOptions): parseImport.ParseState;
+ 
+     const scan: typeof scanImport;
+ 
+@@ -241,9 +237,7 @@ declare namespace picomatch {
+         returnState?: boolean,
+     ): ReturnType<typeof compileRe>;
+ 
+-    type ToRegexOptions = Pick<PicomatchOptions, "flags" | "nocase" | "debug">;
+-
+-    function toRegex(source: string | RegExp, options?: ToRegexOptions): RegExp;
++    function toRegex(source: string | RegExp, options?: PicomatchOptions): RegExp;
+ 
+     const constants: typeof constantsImport;
+ }
+diff --git a/node_modules/@types/picomatch/lib/scan.d.ts b/node_modules/@types/picomatch/lib/scan.d.ts
+index d07dcd8..89682aa 100644
+--- a/node_modules/@types/picomatch/lib/scan.d.ts
++++ b/node_modules/@types/picomatch/lib/scan.d.ts
+@@ -1,4 +1,6 @@
+-declare function scan(input: string, options?: scan.Options): scan.State;
++import { PicomatchOptions } from "picomatch";
++
++declare function scan(input: string, options?: PicomatchOptions): scan.State;
+ 
+ declare namespace scan {
+     interface Options {
+@@ -17,6 +19,8 @@ declare namespace scan {
+          * representing each path "segment" in the scanned glob pattern
+          */
+         tokens?: boolean | undefined;
++        posix?: boolean | undefined;
++        strictBrackets?: boolean | undefined;
+     }
+ 
+     interface Token {

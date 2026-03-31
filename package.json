@@ -1,0 +1,36 @@
+{
+  "name": "web-fs-glob",
+  "version": "1.0.0",
+  "description": "File System Access API用のglobライブラリ",
+  "scripts": {
+    "postinstall": "patch-package",
+    "build": "tsc && vite build",
+    "format": "prettier --write \"{src,tests}/**\"",
+    "proxy": "npx local-ssl-proxy --source 5501 --target 5500",
+    "test": "vitest"
+  },
+  "keywords": ["web", "glob", "filesystemhandle", "fast-glob"],
+  "author": "vrcalphabet",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/main.cjs",
+  "module": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "devDependencies": {
+    "@types/braces": "^3.0.5",
+    "@types/picomatch": "^4.0.2",
+    "@types/wicg-file-system-access": "^2023.10.7",
+    "glob": "^13.0.6",
+    "patch-package": "^8.0.1",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.1.2"
+  },
+  "dependencies": {
+    "braces": "^3.0.3",
+    "picomatch": "^4.0.4"
+  }
+}
