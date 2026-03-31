@@ -7,7 +7,7 @@
 File System Access API (`FileSystemHandle`) 用の、高性能な glob ライブラリです。ブラウザ上のディレクトリハンドルに対して、glob パターンによるファイル検索を可能にします。
 
 <figure>
-  <img src="./logo.svg" alt="logo">
+  <img src="https://raw.githubusercontent.com/vrcalphabet/web-fs-glob/refs/heads/master/logo.svg" alt="logo">
   <figcaption style="text-align: right; font-size: 12px; color: gray;">
     <i>*ロゴは自作です！*</i>
   </figcaption>
