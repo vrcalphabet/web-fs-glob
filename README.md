@@ -99,7 +99,7 @@ try {
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/vrcalphabet/web-fs-glob@1.0.0/dist/main.iife.js"
+  src="https://cdn.jsdelivr.net/npm/web-fs-glob/dist/main.iife.js"
   integrity="sha384-DEzXoSS8hvbasVBC8NtRFgtv3CNH8Y6NRH6lMH0Fb8Fy38dq9Bnkvxen4xOJFwNu"
   crossorigin="anonymous"
 ></script>
