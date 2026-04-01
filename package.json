@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "File System Access API用のglobライブラリ",
   "scripts": {
-    "postinstall": "patch-package",
+    "prepare": "patch-package",
     "build": "tsc && vite build",
     "format": "prettier --write \"{src,tests}/**\"",
     "proxy": "npx local-ssl-proxy --source 5501 --target 5500",
