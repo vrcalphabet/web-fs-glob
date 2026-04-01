@@ -1,0 +1,115 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>web-fs-glob API Documentation - v1.0.1</title><meta name="description" content="Documentation for web-fs-glob API Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">web-fs-glob API Documentation - v1.0.1</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>web-fs-glob API Documentation - v1.0.1</h1></div><div class="tsd-panel tsd-typography"><h1 id="web-fs-glob" class="tsd-anchor-link">web-fs-glob<a href="#web-fs-glob" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><a href="https://badge.fury.io/js/web-fs-glob"><img src="https://badge.fury.io/js/web-fs-glob.svg" alt="npm version"></a>
+<a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-Ready-blue.svg" alt="TypeScript"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></p>
+<p>File System Access API (<code>FileSystemHandle</code>) 用の、高性能な glob ライブラリです。ブラウザ上のディレクトリハンドルに対して、glob パターンによるファイル検索を可能にします。</p>
+<figure>
+  <img src="https://raw.githubusercontent.com/vrcalphabet/web-fs-glob/refs/heads/master/logo.svg" alt="logo">
+  <figcaption style="text-align: right; font-size: 12px; color: gray;">
+    <i>*ロゴは自作です！*</i>
+  </figcaption>
+</figure>
+<h2 id="特徴" class="tsd-anchor-link">特徴<a href="#特徴" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><strong>FileSystem Access API 対応</strong>: <code>FileSystemDirectoryHandle</code> をルートとしたディレクトリ走査が可能です。</li>
+<li><strong>高性能なマッチング</strong>: 内部に <code>picomatch</code> と <code>braces</code> を使用しており、複雑な階層でも正確に動作します。</li>
+<li><strong>一定時間でのキャンセル対応</strong>: <code>AbortSignal</code> による処理の停止をサポートしています。</li>
+<li><strong>柔軟なオプション</strong>: <code>maxDepth</code>, <code>ignore</code>, <code>dot</code>, <code>nodir</code>, <code>matchBase</code> など、標準的な glob オプションに一部対応しています。</li>
+</ul>
+<h2 id="デモ" class="tsd-anchor-link">デモ<a href="#デモ" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p><a href="https://vrcalphabet.github.io/web-fs-glob-test/">こちら</a>から試せます。</p>
+<h2 id="例" class="tsd-anchor-link">例<a href="#例" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>この例では、<code>window.showDirectoryPicker()</code> で取得したディレクトリハンドルからファイルを検索します。</p>
+<h3 id="1-基本的な使い方" class="tsd-anchor-link">1. 基本的な使い方<a href="#1-基本的な使い方" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>glob(pattern, options)</code> 関数を使用して、パターンに一致するエントリを非同期で取得します。
+一致したエントリは、パス、名前、および対応する <code>FileSystemHandle</code> を含む配列で返されます。</p>
+<pre><code class="ts"><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">glob</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&#39;web-fs-glob&#39;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">button</span><span class="hl-1"> = </span><span class="hl-2">document</span><span class="hl-1">.</span><span class="hl-6">querySelector</span><span class="hl-1">(</span><span class="hl-3">&#39;#button&#39;</span><span class="hl-1">)</span><br/><span class="hl-2">button</span><span class="hl-1">.</span><span class="hl-6">addEventListener</span><span class="hl-1">(</span><span class="hl-3">&#39;click&#39;</span><span class="hl-1">, </span><span class="hl-4">async</span><span class="hl-1"> () </span><span class="hl-4">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-7">// ディレクトリハンドルを取得</span><br/><span class="hl-1">  </span><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">handle</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">window</span><span class="hl-1">.</span><span class="hl-6">showDirectoryPicker</span><span class="hl-1">()</span><br/><br/><span class="hl-1">  </span><span class="hl-7">// パターンを指定して検索</span><br/><span class="hl-1">  </span><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">results</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-6">glob</span><span class="hl-1">(</span><span class="hl-3">&#39;**/*.ts&#39;</span><span class="hl-1">, {</span><br/><span class="hl-1">    </span><span class="hl-2">cwd:</span><span class="hl-1"> </span><span class="hl-2">handle</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">dot:</span><span class="hl-1"> </span><span class="hl-4">true</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">ignore:</span><span class="hl-1"> [</span><span class="hl-3">&#39;**/node_modules/**&#39;</span><span class="hl-1">],</span><br/><span class="hl-1">  })</span><br/><br/><span class="hl-1">  </span><span class="hl-7">// 結果の利用</span><br/><span class="hl-1">  </span><span class="hl-0">for</span><span class="hl-1"> (</span><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">result</span><span class="hl-1"> </span><span class="hl-4">of</span><span class="hl-1"> </span><span class="hl-2">results</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-2">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-3">`</span><span class="hl-4">${</span><span class="hl-2">result</span><span class="hl-8">.</span><span class="hl-2">path</span><span class="hl-4">}</span><span class="hl-3"> (</span><span class="hl-4">${</span><span class="hl-2">result</span><span class="hl-8">.</span><span class="hl-2">kind</span><span class="hl-4">}</span><span class="hl-3">)`</span><span class="hl-1">)</span><br/><br/><span class="hl-1">    </span><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-2">result</span><span class="hl-1">.</span><span class="hl-2">kind</span><span class="hl-1"> === </span><span class="hl-3">&#39;file&#39;</span><span class="hl-1">) {</span><br/><span class="hl-1">      </span><span class="hl-7">// FileSystemFileHandle からファイルを取得</span><br/><span class="hl-1">      </span><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">file</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">result</span><span class="hl-1">.</span><span class="hl-2">handle</span><span class="hl-1">.</span><span class="hl-6">getFile</span><span class="hl-1">()</span><br/><span class="hl-1">      </span><span class="hl-2">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-3">&#39;File size:&#39;</span><span class="hl-1">, </span><span class="hl-2">file</span><span class="hl-1">.</span><span class="hl-2">size</span><span class="hl-1">)</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="2-オプションの利用" class="tsd-anchor-link">2. オプションの利用<a href="#2-オプションの利用" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>検索の深さや、ディレクトリを含めるかどうかなどの詳細な動作を制御できます。</p>
+<pre><code class="ts"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">results</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-6">glob</span><span class="hl-1">(</span><span class="hl-3">&#39;**/*&#39;</span><span class="hl-1">, {</span><br/><span class="hl-1">  </span><span class="hl-2">cwd:</span><span class="hl-1"> </span><span class="hl-2">handle</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">dot:</span><span class="hl-1"> </span><span class="hl-4">true</span><span class="hl-1">, </span><span class="hl-7">// 隠しファイルも取得する</span><br/><span class="hl-1">  </span><span class="hl-2">ignore:</span><span class="hl-1"> [</span><span class="hl-3">&#39;**/node_modules/**&#39;</span><span class="hl-1">], </span><span class="hl-7">// 特定のディレクトリやファイルを除外する</span><br/><span class="hl-1">  </span><span class="hl-2">matchBase:</span><span class="hl-1"> </span><span class="hl-4">true</span><span class="hl-1">, </span><span class="hl-7">// パターンにスラッシュを含まない場合にすべての階層を対象にする</span><br/><span class="hl-1">  </span><span class="hl-2">maxDepth:</span><span class="hl-1"> </span><span class="hl-9">3</span><span class="hl-1">, </span><span class="hl-7">// 最大3階層まで検索</span><br/><span class="hl-1">  </span><span class="hl-2">nodir:</span><span class="hl-1"> </span><span class="hl-4">true</span><span class="hl-1">, </span><span class="hl-7">// ディレクトリを除外してファイルのみ取得</span><br/><span class="hl-1">  </span><span class="hl-2">signal:</span><span class="hl-1"> </span><span class="hl-2">AbortSignal</span><span class="hl-1">.</span><span class="hl-6">timeout</span><span class="hl-1">(</span><span class="hl-9">50</span><span class="hl-1">), </span><span class="hl-7">// 50ミリ秒経っても取得できない場合は強制停止する</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="3-キャンセル処理" class="tsd-anchor-link">3. キャンセル処理<a href="#3-キャンセル処理" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>AbortSignal</code> を渡すことで、長時間かかる可能性のある検索処理を安全に中断できます。</p>
+<pre><code class="ts"><span class="hl-0">try</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">results</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-6">glob</span><span class="hl-1">(</span><span class="hl-3">&#39;**/*.txt&#39;</span><span class="hl-1">, {</span><br/><span class="hl-1">    </span><span class="hl-2">cwd:</span><span class="hl-1"> </span><span class="hl-2">handle</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-2">signal:</span><span class="hl-1"> </span><span class="hl-2">AbortSignal</span><span class="hl-1">.</span><span class="hl-6">timeout</span><span class="hl-1">(</span><span class="hl-9">1000</span><span class="hl-1">),</span><br/><span class="hl-1">  })</span><br/><span class="hl-1">} </span><span class="hl-0">catch</span><span class="hl-1"> (</span><span class="hl-2">e</span><span class="hl-1">) {</span><br/><span class="hl-1">  </span><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-2">e</span><span class="hl-1">.</span><span class="hl-2">name</span><span class="hl-1"> === </span><span class="hl-3">&#39;AbortError&#39;</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-2">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-3">&#39;検索がキャンセルされました&#39;</span><span class="hl-1">)</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="4-iifeでの使用" class="tsd-anchor-link">4. IIFEでの使用<a href="#4-iifeでの使用" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>通常のモジュール利用に加え、<code>&lt;script&gt;</code> タグ経由の読み込みも対応しています。
+<code>&lt;head&gt;</code> タグ内の任意の場所に、以下のタグを追加するだけです。</p>
+<p>スクリプト読み込み後は、<code>glob()</code> 関数がグローバルに登録されます。</p>
+<pre><code class="html"><span class="hl-10">&lt;</span><span class="hl-11">script</span><br/><span class="hl-8">  </span><span class="hl-12">src</span><span class="hl-8">=</span><span class="hl-13">&quot;https://cdn.jsdelivr.net/npm/web-fs-glob/dist/main.iife.js&quot;</span><br/><span class="hl-8">  </span><span class="hl-12">integrity</span><span class="hl-8">=</span><span class="hl-13">&quot;sha384-DEzXoSS8hvbasVBC8NtRFgtv3CNH8Y6NRH6lMH0Fb8Fy38dq9Bnkvxen4xOJFwNu&quot;</span><br/><span class="hl-8">  </span><span class="hl-12">crossorigin</span><span class="hl-8">=</span><span class="hl-13">&quot;anonymous&quot;</span><br/><span class="hl-10">&gt;&lt;/</span><span class="hl-11">script</span><span class="hl-10">&gt;</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="インストール" class="tsd-anchor-link">インストール<a href="#インストール" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="bash"><span class="hl-6">npm</span><span class="hl-1"> </span><span class="hl-3">install</span><span class="hl-1"> </span><span class="hl-3">web-fs-glob</span><br/><span class="hl-7"># or</span><br/><span class="hl-6">yarn</span><span class="hl-1"> </span><span class="hl-3">add</span><span class="hl-1"> </span><span class="hl-3">web-fs-glob</span><br/><span class="hl-7"># or</span><br/><span class="hl-6">pnpm</span><span class="hl-1"> </span><span class="hl-3">add</span><span class="hl-1"> </span><span class="hl-3">web-fs-glob</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="api" class="tsd-anchor-link">API<a href="#api" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="_" class="tsd-anchor-link"><code>glob(pattern, options)</code><a href="#_" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><code>pattern</code>: <code>string | string[]</code> - 検索する glob パターン、またはその配列。</li>
+<li><code>options</code>: <code>GlobOptions</code> - 以下のオプションを指定可能。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cwd</code></td>
+<td><code>FileSystemDirectoryHandle</code></td>
+<td><strong>必須</strong>。検索を開始するルートディレクトリハンドル。</td>
+</tr>
+<tr>
+<td><code>dot?</code></td>
+<td><code>boolean</code></td>
+<td>隠しファイル（<code>.</code>で始まる）にマッチさせるか。 (デフォルト: <code>false</code>)</td>
+</tr>
+<tr>
+<td><code>ignore?</code></td>
+<td><code>string | string[]</code></td>
+<td>検索から除外するエントリのパターン。 (デフォルト: <code>[]</code>)</td>
+</tr>
+<tr>
+<td><code>matchBase?</code></td>
+<td><code>boolean</code></td>
+<td>パターンにスラッシュが含まれていない場合、すべての階層でマッチさせるか。 (デフォルト: <code>false</code>)</td>
+</tr>
+<tr>
+<td><code>maxDepth?</code></td>
+<td><code>number</code></td>
+<td>走査するディレクトリの最大深さ。 (デフォルト: <code>Infinity</code>)</td>
+</tr>
+<tr>
+<td><code>nodir?</code></td>
+<td><code>boolean</code></td>
+<td>結果からディレクトリを除外するか。 (デフォルト: <code>false</code>)</td>
+</tr>
+<tr>
+<td><code>signal?</code></td>
+<td><code>AbortSignal</code></td>
+<td>検索を中断するためのシグナル。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_-1" class="tsd-anchor-link"><code>GlobResult</code><a href="#_-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>検索結果として返されるオブジェクトの型定義です。</p>
+<pre><code class="ts"><span class="hl-4">type</span><span class="hl-1"> </span><span class="hl-14">GlobResult</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-2">path</span><span class="hl-1">: </span><span class="hl-14">string</span><span class="hl-1"> </span><span class="hl-7">// cwd からの相対パス</span><br/><span class="hl-1">  </span><span class="hl-2">name</span><span class="hl-1">: </span><span class="hl-14">string</span><span class="hl-1"> </span><span class="hl-7">// エントリ名</span><br/><span class="hl-1">} &amp; (</span><br/><span class="hl-1">  | { </span><span class="hl-2">kind</span><span class="hl-1">: </span><span class="hl-3">&#39;file&#39;</span><span class="hl-1">; </span><span class="hl-2">handle</span><span class="hl-1">: </span><span class="hl-14">FileSystemFileHandle</span><span class="hl-1"> }</span><br/><span class="hl-1">  | { </span><span class="hl-2">kind</span><span class="hl-1">: </span><span class="hl-3">&#39;directory&#39;</span><span class="hl-1">; </span><span class="hl-2">handle</span><span class="hl-1">: </span><span class="hl-14">FileSystemDirectoryHandle</span><span class="hl-1"> }</span><br/><span class="hl-1">)</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="貢献" class="tsd-anchor-link">貢献<a href="#貢献" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>プロジェクトへの貢献を歓迎します！以下のルールに従うと，あなたの貢献がスムーズになります！</p>
+<h3 id="issue-pr" class="tsd-anchor-link">Issue / PR<a href="#issue-pr" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Issueを立てる際は，バグ報告・機能要望のどちらかを明記してください。
+PRの説明には，目的・変更点・影響範囲・サンプルコードがあるとありがたいです。</p>
+<h2 id="ライセンス" class="tsd-anchor-link">ライセンス<a href="#ライセンス" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>MIT License</p>
+<p>詳細は<a href="media/LICENSE">LICENSE</a>ファイルを参照してください。</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#web-fs-glob"><span>web-<wbr/>fs-<wbr/>glob</span></a><ul><li><a href="#特徴"><span>特徴</span></a></li><li><a href="#デモ"><span>デモ</span></a></li><li><a href="#例"><span>例</span></a></li><li><ul><li><a href="#1-基本的な使い方"><span>1. 基本的な使い方</span></a></li><li><a href="#2-オプションの利用"><span>2. オプションの利用</span></a></li><li><a href="#3-キャンセル処理"><span>3. キャンセル処理</span></a></li><li><a href="#4-iifeでの使用"><span>4. <wbr/>IIFEでの使用</span></a></li></ul></li><li><a href="#インストール"><span>インストール</span></a></li><li><a href="#api"><span>API</span></a></li><li><ul><li><a href="#_"><span></span></a></li><li><a href="#_-1"><span></span></a></li></ul></li><li><a href="#貢献"><span>貢献</span></a></li><li><ul><li><a href="#issue-pr"><span>Issue / <wbr/>PR</span></a></li></ul></li><li><a href="#ライセンス"><span>ライセンス</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">web-fs-glob API Documentation - v1.0.1</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

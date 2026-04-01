@@ -7,6 +7,7 @@
     "build": "tsc && vite build",
     "format": "prettier --write \"{src,tests}/**\"",
     "proxy": "npx local-ssl-proxy --source 5501 --target 5500",
+    "docs": "npx typedoc",
     "test": "vitest"
   },
   "keywords": ["web", "glob", "filesystemhandle", "fast-glob"],
@@ -25,6 +26,7 @@
     "@types/wicg-file-system-access": "^2023.10.7",
     "glob": "^13.0.6",
     "patch-package": "^8.0.1",
+    "typedoc": "^0.28.18",
     "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.1.2"
