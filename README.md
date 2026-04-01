@@ -20,6 +20,10 @@ File System Access API (`FileSystemHandle`) 用の、高性能な glob ライブ
 - **一定時間でのキャンセル対応**: `AbortSignal` による処理の停止をサポートしています。
 - **柔軟なオプション**: `maxDepth`, `ignore`, `dot`, `nodir`, `matchBase` など、標準的な glob オプションに一部対応しています。
 
+## デモ
+
+[こちら](https://vrcalphabet.github.io/web-fs-glob-test/)から試せます。
+
 ## 例
 
 この例では、`window.showDirectoryPicker()` で取得したディレクトリハンドルからファイルを検索します。
