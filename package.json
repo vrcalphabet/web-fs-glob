@@ -10,7 +10,12 @@
     "docs": "npx typedoc",
     "test": "vitest"
   },
-  "keywords": ["web", "glob", "filesystemhandle", "fast-glob"],
+  "keywords": [
+    "web",
+    "glob",
+    "filesystemhandle",
+    "fast-glob"
+  ],
   "author": "vrcalphabet",
   "license": "MIT",
   "type": "module",
