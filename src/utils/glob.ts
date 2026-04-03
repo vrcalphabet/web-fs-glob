@@ -13,7 +13,7 @@ function normalizeGlob(pattern: string, matchBase: boolean): string {
     .replace(/(\*\*\/)+/g, '**/')
     .replace(/\/+/g, '/')
 
-  if (matchBase && !pattern.includes('/')) {
+  if (matchBase && !pattern.includes('/') && pattern !== "**") {
     pattern = `**/${pattern}`
   }
 
