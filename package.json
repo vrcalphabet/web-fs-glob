@@ -16,6 +16,14 @@
     "filesystemhandle",
     "fast-glob"
   ],
+  "homepage": "https://github.com/vrcalphabet/web-fs-glob",
+  "bugs": {
+    "url": "https://github.com/vrcalphabet/web-fs-glob/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vrcalphabet/web-fs-glob.git"
+  },
   "author": "vrcalphabet",
   "license": "MIT",
   "type": "module",
